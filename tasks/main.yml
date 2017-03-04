@@ -1,0 +1,42 @@
+---
+- name: "tumbumer.user: manage"
+  become: yes
+  user:
+    name: "{{ item.name }}"
+    state: "{{ item.state | default(omit) }}"
+    remove: "{{ item.remove | default(omit) }}"
+    password: "{{ item.password | default(omit) }}"
+    update_password: "{{ item.update_password | default(omit) }}"
+    comment: "{{ item.comment | default(omit) }}"
+    shell: "{{ item.shell | default(omit) }}"
+    system: "{{ item.system | default(omit) }}"
+    createhome: "{{ item.createhome | default(omit) }}"
+    home: "{{ item.home | default(omit) }}"
+    group: "{{ item.group | default(omit) }}"
+    groups: "{{ item.groups | default(omit) }}"
+  with_items: "{{ tumbumer_user_list | default({}) }}"
+
+- name: "tumbumer.user: update authorized_key"
+  become: yes
+  authorized_key:
+    user: "{{ item.name }}"
+    key: "{{ lookup('file', item.ssh_public_key_path) }}"
+    state: present
+    exclusive: yes
+  with_items: "{{ tumbumer_user_list | default({}) }}"
+  when: item.ssh_public_key_path is defined
+
+- name: "tumbumer.user: get home dir"
+  shell: "egrep '^{{ item.name }}:' /etc/passwd | awk -F: '{ print $6 }'"
+  changed_when: false
+  register: tumbumer_user_home
+  with_items: "{{ tumbumer_user_list | default({}) }}"
+  when: item.bashrc is defined
+
+- name: "tumbumer.user: update ~/.bashrc"
+  become: yes
+  blockinfile:
+    dest: "{{ item.stdout }}/.bashrc"
+    block: "{{ item.item.bashrc }}"
+  with_items: "{{ tumbumer_user_home.results | default({}) }}"
+  when: item.stdout is defined
