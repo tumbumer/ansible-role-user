@@ -4,6 +4,26 @@
     msg: "OS must be Debian Jessie or Ubuntu 16.04 Xenial Xerus"
   when: (not (ansible_distribution == "Debian" and ansible_distribution_release == "jessie")) and (not (ansible_distribution == "Ubuntu" and ansible_distribution_release == "xenial"))
 
+- name: "tumbumer.user: set up default home directory permissions"
+  become: yes
+  file:
+    path: /etc/skel
+    state: directory
+    mode: 0700
+  when: tumbumer_user_is_home_dir_private is defined and tumbumer_user_is_home_dir_private == true
+
+- name: "tumbumer.user: set up default home files permissions"
+  become: yes
+  file:
+    path: "/etc/skel/{{ item }}"
+    state: file
+    mode: 0600
+  with_items:
+  - ".bash_logout"
+  - ".bashrc"
+  - ".profile"
+  when: tumbumer_user_is_home_dir_private is defined and tumbumer_user_is_home_dir_private == true
+
 - name: "tumbumer.user: manage"
   become: yes
   user:

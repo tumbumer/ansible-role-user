@@ -1,6 +1,6 @@
 # tumbumer.user
 
-Manage software.
+Manage user accounts.
 
 ## Requirements
 
@@ -8,15 +8,17 @@ None.
 
 ## Role Variables
 
-`tumbumer_user_list` - a list with `name` keys and structure as well as an
-[official Ansible user module](https://docs.ansible.com/ansible/user_module.html)
+var | description
+---|---
+tumbumer_user_is_home_dir_private | if `yes` then newly created users will have a mask of 0700 for their home directories and subdirectories and 0600 for files
+tumbumer_user_list | a list with `name` keys and structure as well as an [official Ansible user module](https://docs.ansible.com/ansible/user_module.html). Supported keys are: `state`, `remove`, `password`, `update_password`, `comment`, `shell`, `system`, `createhome`, `home`, `group`, `groups`
 
 ### Additional optionally vars
 
-var | default | choices | description
----|---|---|---
-tumbumer_user_list.{{ name }}.ssh_public_key_path | | | Relative path to the user public ssh key file
-tumbumer_user_list.{{ name }}.bashrc | | | Additional lines for the user `~/.bashrc`
+var | description
+---|---
+tumbumer_user_list.{{ name }}.ssh_public_key_path | Relative path to the user public ssh key file
+tumbumer_user_list.{{ name }}.bashrc | Additional lines for the user `~/.bashrc`
 
 ## Dependencies
 
@@ -27,6 +29,7 @@ None.
 ---
 - hosts: all
   vars:
+  - tumbumer_user_is_home_dir_private: yes
   - tumbumer_user_list:
     - name: test
       state: present
