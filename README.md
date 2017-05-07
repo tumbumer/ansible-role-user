@@ -10,7 +10,7 @@ None.
 
 var | description
 ---|---
-tumbumer_user_is_home_dir_private | if `yes` then newly created users will have a mask of 0700 for their home directories and subdirectories and 0600 for files
+tumbumer_user_is_home_dir_private | if `yes` then newly created users will have a mask of 0700 for their home directories
 tumbumer_user_list | a list with `name` keys and structure as well as an [official Ansible user module](https://docs.ansible.com/ansible/user_module.html). Supported keys are: `state`, `remove`, `password`, `update_password`, `comment`, `shell`, `system`, `createhome`, `home`, `group`, `groups`
 
 ### Additional optionally vars
