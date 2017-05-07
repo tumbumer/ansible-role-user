@@ -32,6 +32,7 @@ None.
   - tumbumer_user_is_home_dir_private: yes
   - tumbumer_user_list:
     - name: test
+      comment: Test user
       state: present
       remove: no
       password: $6$/lTW6W7l$42C8ilXCEKRr3qLx10Wf3I.hCawAiqw95Vt/e6x6J8pzxszeooo3pd5ppwBW6VEWRKLTbMhChTVwEjmj1vVox.
