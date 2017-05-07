@@ -12,6 +12,7 @@ var | description
 ---|---
 tumbumer_user_is_home_dir_private | if `yes` then newly created users will have a mask of 0700 for their home directories
 tumbumer_user_list | a list with `name` keys and structure as well as an [official Ansible user module](https://docs.ansible.com/ansible/user_module.html). Supported keys are: `state`, `remove`, `password`, `update_password`, `comment`, `shell`, `system`, `createhome`, `home`, `group`, `groups`
+tumbumer_user_force_change_password_list | list of users who must be forced to change the password at the first login
 
 ### Additional optionally vars
 
@@ -30,6 +31,8 @@ None.
 - hosts: all
   vars:
   - tumbumer_user_is_home_dir_private: yes
+  - tumbumer_user_force_change_password_list:
+    - test
   - tumbumer_user_list:
     - name: test
       comment: Test user
@@ -45,6 +48,7 @@ None.
       groups: ""
       ssh_public_key_path: host_files/_ssh/tumbumer.pub
       bashrc: |
+        umask 0077
         alias la='ls -lAh'
         if [ -f /usr/bin/screenfetch ]; then echo && /usr/bin/screenfetch -c ,2; fi
         df -h | grep ^/dev

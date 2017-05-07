@@ -41,6 +41,12 @@
     groups: "{{ item.groups | default(omit) }}"
   with_items: "{{ tumbumer_user_list | default({}) }}"
 
+- name: "tumbumer.user: force to password change"
+  become: true
+  shell: "/usr/bin/chage -d0 {{ item }}"
+  with_items: "{{ tumbumer_user_force_change_password_list | default({}) }}"
+  when: tumbumer_user_force_change_password_list is defined
+
 - name: "tumbumer.user: update authorized_key"
   become: true
   authorized_key:
