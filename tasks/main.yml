@@ -1,8 +1,8 @@
 ---
 - name: "tumbumer.user: check os version"
   fail:
-    msg: "OS must be Debian Jessie or Ubuntu 16.04 Xenial Xerus"
-  when: (not (ansible_distribution == "Debian" and ansible_distribution_release == "jessie")) and (not (ansible_distribution == "Ubuntu" and ansible_distribution_release == "xenial"))
+    msg: "OS must be Debian Stretch or Ubuntu 16.04 Xenial Xerus"
+  when: (not (ansible_distribution == "Debian" and ansible_distribution_release == "stretch")) and (not (ansible_distribution == "Ubuntu" and ansible_distribution_release == "xenial"))
 
 - name: "tumbumer.user: set up default home directory permissions"
   become: true
