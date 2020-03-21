@@ -51,11 +51,11 @@
   become: true
   authorized_key:
     user: "{{ item.name }}"
-    key: "{{ lookup('file', item.ssh_public_key_path) }}"
+    key: "{{ item.ssh_public_key }}"
     state: present
     exclusive: yes
   with_items: "{{ tumbumer_user_list | default({}) }}"
-  when: item.ssh_public_key_path is defined
+  when: item.ssh_public_key is defined
 
 - name: "tumbumer.user: get home dir"
   shell: "egrep '^{{ item.name }}:' /etc/passwd | awk -F: '{ print $6 }'"

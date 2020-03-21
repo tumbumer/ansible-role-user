@@ -18,7 +18,7 @@ tumbumer_user_force_change_password_list | list of users who must be forced to c
 
 var | description
 ---|---
-tumbumer_user_list.{{ name }}.ssh_public_key_path | Relative path to the user public ssh key file
+tumbumer_user_list.{{ name }}.ssh_public_key | User public key. Multiple keys can be specified in a single key string value by separating them by newlines.
 tumbumer_user_list.{{ name }}.bashrc | Additional lines for the user `~/.bashrc`
 
 ## Dependencies
@@ -46,7 +46,7 @@ None.
       home: /home/test
       group: test
       groups: ""
-      ssh_public_key_path: host_files/_ssh/tumbumer.pub
+      ssh_public_key: "-----BEGIN OPENSSH PRIVATE KEY-----..."
       bashrc: |
         umask 0077
         alias la='ls -lAh'
