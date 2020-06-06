@@ -53,7 +53,7 @@
   when: item.ssh_public_key is defined
 
 - name: "tumbumer.user: get home dir"
-  shell: "set -eo pipefail && egrep '^{{ item.name }}:' /etc/passwd | awk -F: '{ print $6 }'"
+  shell: "egrep '^{{ item.name }}:' /etc/passwd | awk -F: '{ print $6 }'"
   changed_when: false
   register: tumbumer_user_home
   with_items: "{{ tumbumer_user_list | default({}) }}"
