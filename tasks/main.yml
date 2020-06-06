@@ -1,8 +1,8 @@
 ---
 - name: "tumbumer.user: check os version"
   fail:
-    msg: "OS must be Ubuntu 18.04 Bionic Beaver"
-  when: not (ansible_distribution == "Ubuntu" and ansible_distribution_release == "bionic")
+    msg: "OS must be Ubuntu 20.04 Focal Fossa"
+  when: not (ansible_distribution == "Ubuntu" and ansible_distribution_release == "focal")
 
 - name: "tumbumer.user: set up default home directory permissions"
   become: true
@@ -10,7 +10,7 @@
     dest: /etc/login.defs
     regexp: "^UMASK"
     line: "UMASK    077"
-  when: tumbumer_user_is_home_dir_private is defined and tumbumer_user_is_home_dir_private == true
+  when: tumbumer_user_is_home_dir_private is defined and tumbumer_user_is_home_dir_private
 
 - name: "tumbumer.user: set up default home files permissions"
   become: true
@@ -22,7 +22,7 @@
   - ".bash_logout"
   - ".bashrc"
   - ".profile"
-  when: tumbumer_user_is_home_dir_private is defined and tumbumer_user_is_home_dir_private == true
+  when: tumbumer_user_is_home_dir_private is defined and tumbumer_user_is_home_dir_private
 
 - name: "tumbumer.user: manage"
   become: true
@@ -58,7 +58,7 @@
   when: item.ssh_public_key is defined
 
 - name: "tumbumer.user: get home dir"
-  shell: "egrep '^{{ item.name }}:' /etc/passwd | awk -F: '{ print $6 }'"
+  shell: "set -eo pipefail && egrep '^{{ item.name }}:' /etc/passwd | awk -F: '{ print $6 }'"
   changed_when: false
   register: tumbumer_user_home
   with_items: "{{ tumbumer_user_list | default({}) }}"
