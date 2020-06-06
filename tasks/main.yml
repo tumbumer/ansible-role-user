@@ -1,9 +1,4 @@
 ---
-- name: "tumbumer.user: check os version"
-  fail:
-    msg: "OS must be Ubuntu 20.04 Focal Fossa"
-  when: not (ansible_distribution == "Ubuntu" and ansible_distribution_release == "focal")
-
 - name: "tumbumer.user: set up default home directory permissions"
   become: true
   lineinfile:
